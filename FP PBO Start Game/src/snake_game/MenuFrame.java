@@ -7,7 +7,9 @@ import java.io.FileNotFoundException;
 import javax.swing.*;
 
 
+
 public class MenuFrame extends JFrame {
+	
     public static void addComponentsToPane(Container pane) {
         	
     	pane.add(Box.createVerticalGlue());
@@ -15,7 +17,7 @@ public class MenuFrame extends JFrame {
         
         
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		pane.setBackground(new Color(157,182,71));
+		pane.setBackground(new Color(22,182,123));
 
 		//Icon Snake = new ImageIcon(getClass().getResource( "Snake887.png"));
 		JLabel Title = new JLabel("SNAKE");
@@ -29,13 +31,9 @@ public class MenuFrame extends JFrame {
         PlayGame.setPreferredSize(new Dimension(150, 40));
         PlayGame.setBackground(new Color(193, 209, 136));
         PlayGame.setFont(new Font("Arial", Font.BOLD, 36));
-        PlayGame.addActionListener((event) -> {
-			try {
-				SnakeFrame.mainSnake();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+        PlayGame.addActionListener((event) -> 
+        {
+			SplashSnakeFrame.main(null);
 		});
         pane.add(PlayGame);
         pane.add(Box.createVerticalGlue());
@@ -61,6 +59,14 @@ public class MenuFrame extends JFrame {
         Credits.setPreferredSize(new Dimension(150, 40));
         Credits.setBackground(new Color(193, 209, 136));
         Credits.setFont(new Font("Arial", Font.BOLD, 30));
+        Credits.addActionListener(new ActionListener() 
+        {
+			public void actionPerformed(ActionEvent e) 
+			{
+				Credit cek = new Credit();
+				cek.creditFrame.setVisible(true);
+			}
+		});
         pane.add(Credits);
         pane.add(Box.createVerticalGlue());
         
@@ -69,8 +75,16 @@ public class MenuFrame extends JFrame {
         Exit.setPreferredSize(new Dimension(150, 40));
         Exit.setBackground(new Color(193, 209, 136));
         Exit.setFont(new Font("Arial", Font.BOLD, 30));
-        Exit.addActionListener((event) -> System.exit(0));
+        
+        Exit.addActionListener((event) -> {
+        	JFrame confirm = new JFrame();
+        	if(JOptionPane.showConfirmDialog(confirm, "Yakin nih udahan..", "Confirm Exit", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION)
+        	{
+        		System.exit(0);
+        	}
+        });
         pane.add(Exit);
+        
         pane.add(Box.createVerticalGlue());
         pane.add(Box.createVerticalGlue());
 
@@ -83,7 +97,17 @@ public class MenuFrame extends JFrame {
     
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Main Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+        	@Override
+        	public void windowClosing(WindowEvent e)
+        	{
+        		if(JOptionPane.showConfirmDialog(null, "Yakin nih udahan..", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_NO_OPTION)
+            	{
+            		System.exit(0);
+            	}
+        	}
+        });
 
         addComponentsToPane(frame.getContentPane());
         frame.setSize(1200, 600);

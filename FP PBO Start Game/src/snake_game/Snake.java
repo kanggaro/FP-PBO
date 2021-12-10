@@ -863,7 +863,7 @@ public class Snake extends JPanel implements ActionListener {
                 level();
                 break;
             case "about" :
-                    JOptionPane.showMessageDialog(this,"Title : Snake Game \n Author : Manish Kumar \n Blog : www.justdocodings.blopspot.com","About",
+                    JOptionPane.showMessageDialog(this,"Title : Snake Game \n Reference of Author : Manish Kumar \n Blog : www.justdocodings.blopspot.com","About",
                         JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "viewHelp" :
