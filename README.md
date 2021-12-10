@@ -1,10 +1,10 @@
 Final Project PBO
 
 Anggota:
-- Muhammad Abror Al Qushoyyi    / 5025201028
-- Beryl                         / 5025201029
-- Gaudhiwa Hendrasto            / 5025201066
-- Muhammad Afif Dwi Ardhiansyah / 5025201212
+- 5025201028	/ Muhammad Abror Al Qushoyyi    / kanggaro
+- 5025201029	/ Beryl                         / berylberyl1
+- 5025201066	/ Gaudhiwa Hendrasto            / gaudhiwaa
+- 5025201212	/ Muhammad Afif Dwi Ardhiansyah / AfifArdhiansyah
 
 Deskripsi Project:
 
