@@ -47,7 +47,7 @@ public class Snake extends JPanel implements ActionListener {
     int goldFoodY;
     int goldFoodDuration=5;
     int goldFoodCD = 10;
-    int count;
+    private int count;
     int highScore;
     char direction = 'R';
     boolean newHighScore=false;
@@ -95,6 +95,7 @@ public class Snake extends JPanel implements ActionListener {
     Image cabbageImg;
     Image poisonImg;
     Image berryImg;
+    Image backgroundArena;
     CountInSeconds countInSeconds;
     Timer timerSeconds;
     GetHighScore getHighScore = new GetHighScore();
@@ -114,7 +115,8 @@ public class Snake extends JPanel implements ActionListener {
     Snake() {
         
         addKeyListener(new SAdapter());
-        setBackground(Color.cyan);
+//        setBackground(Color.cyan);
+        setBackground(new Color(196,206,116));
         setFocusable(true);
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+7));
         loadImage();
@@ -334,15 +336,47 @@ public class Snake extends JPanel implements ActionListener {
     {   
         ImageIcon imgtile = new ImageIcon("img/tile.png");
         tile = imgtile.getImage();
-        ImageIcon imgbody = new ImageIcon("img/body.png");
+        
+        GetCharacter snakeSelect = new GetCharacter();
+        ImageIcon imgbody = null;
+        ImageIcon imgheadL = null;
+        ImageIcon imgheadR = null;
+        ImageIcon imgheadU = null;
+        ImageIcon imgheadD = null;
+        switch(snakeSelect.getSelectedCharacter()) {
+        case 1:
+        	imgbody = new ImageIcon("img/greenSnake/body.png");
+        	imgheadL = new ImageIcon("img/greenSnake/headL.png");
+        	imgheadR = new ImageIcon("img/greenSnake/headR.png");
+        	imgheadU = new ImageIcon("img/greenSnake/headU.png");
+        	imgheadD = new ImageIcon("img/greenSnake/headD.png");
+        	break;
+        case 2:
+        	imgbody = new ImageIcon("img/redSnake/bodyRed.png");
+        	imgheadL = new ImageIcon("img/redSnake/headRedL.png");
+        	imgheadR = new ImageIcon("img/redSnake/headRedR.png");
+        	imgheadU = new ImageIcon("img/redSnake/headRedU.png");
+        	imgheadD = new ImageIcon("img/redSnake/headRedD.png");
+        	break;
+        case 3:
+        	imgbody = new ImageIcon("img/yellowSnake/bodyYellow.png");
+        	imgheadL = new ImageIcon("img/yellowSnake/headYellowL.png");
+        	imgheadR = new ImageIcon("img/yellowSnake/headYellowR.png");
+        	imgheadU = new ImageIcon("img/yellowSnake/headYellowU.png");
+        	imgheadD = new ImageIcon("img/yellowSnake/headYellowD.png");
+        	break;
+        case 4:
+        	imgbody = new ImageIcon("img/blueSnake/bodyBlue.png");
+        	imgheadL = new ImageIcon("img/blueSnake/headBlueL.png");
+        	imgheadR = new ImageIcon("img/blueSnake/headBlueR.png");
+        	imgheadU = new ImageIcon("img/blueSnake/headBlueU.png");
+        	imgheadD = new ImageIcon("img/blueSnake/headBlueD.png");
+        	break;
+        }
         body = imgbody.getImage();
-        ImageIcon imgheadL = new ImageIcon("img/headL.png");
         headL = imgheadL.getImage();
-        ImageIcon imgheadR = new ImageIcon("img/headR.png");
         headR = imgheadR.getImage();
-        ImageIcon imgheadU = new ImageIcon("img/headU.png");
         headU = imgheadU.getImage();
-        ImageIcon imgheadD = new ImageIcon("img/headD.png");
         headD = imgheadD.getImage();
         ImageIcon imgfood = new ImageIcon("img/apple.png");
         food = imgfood.getImage();
@@ -364,13 +398,23 @@ public class Snake extends JPanel implements ActionListener {
         poisonImg = imgPoisonImg.getImage();
         ImageIcon imgBerryImg = new ImageIcon("img/berryImg.png");
         berryImg = imgBerryImg.getImage();
+        
+        //bg arena
+        ImageIcon imgBG = null;
+        imgBG = new ImageIcon("img/arenaBackground2.jpg");
+        backgroundArena = imgBG.getImage();
     }
     
     public void doDrawings(Graphics g)
     {
+    	//background
+//    	g.drawImage(backgroundArena, 0, 0, this);
+    	
         if(running)
         {
             count = countInSeconds.getCount();
+            
+            
 
             //apple biasa aja 
             g.drawImage(food,foodX*IMAGE_SIZE,foodY*IMAGE_SIZE,this);
@@ -528,31 +572,40 @@ public class Snake extends JPanel implements ActionListener {
     
     //display game over
     public void gameOver(Graphics g) {
-        //Upper text
-        g.setColor(Color.blue);
-        g.setFont(new Font("Sans", Font.BOLD, 30));
-        FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength, 
-        		(SCREEN_WIDTH - metrics1.stringWidth("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength)) / 2,
-        		SCREEN_HEIGHT*1/4);
         
-        //Game Over text
-        g.setColor(Color.red);
-        g.setFont(new Font("Sans", Font.BOLD, 45));
+    	//Game Over text
+        g.setColor(new Color(139, 23, 23));
+        g.setFont(new Font("Arial", Font.BOLD, 80));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Game Over", (SCREEN_WIDTH - metrics1.stringWidth("Game Over")) / 2, SCREEN_HEIGHT/2-IMAGE_SIZE*8);
+        
+        //Result text
+    	g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (SCREEN_WIDTH - metrics2.stringWidth("Game Over")) / 2, SCREEN_HEIGHT*3/4);
+        g.drawString("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength, 
+        		(SCREEN_WIDTH - metrics2.stringWidth("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength)) / 2,
+        		SCREEN_HEIGHT/2-IMAGE_SIZE);
         
         //High Score text
-        g.setColor(Color.blue);
-        g.setFont(new Font("Sans", Font.BOLD, 30));
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
         FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("High Score: " + highScore, (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore)) / 2, SCREEN_HEIGHT/2);
+        g.drawString("High Score: " + highScore, (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore)) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE);
         
-        if(newHighScore==true) {
+        //tips text
+        g.setColor(new Color(139, 23, 23));
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+        FontMetrics metrics4 = getFontMetrics(g.getFont());
+        g.drawString("Press ESC to close", (SCREEN_WIDTH - metrics4.stringWidth("Press ESC to close")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*8);
+        g.drawString("Press SPACE to play again", (SCREEN_WIDTH - metrics4.stringWidth("Press SPACE to play again")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*9);
+        
+        //if new high score
+       if(newHighScore==true) {
         	g.setColor(Color.red);
         	g.setFont(new Font("Ink Free", Font.BOLD, 30));
-        	FontMetrics metrics4 = getFontMetrics(g.getFont());
-        	g.drawString("NEW " , (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore))/2 - metrics4.stringWidth("NEW "), SCREEN_HEIGHT/2);
+        	FontMetrics metrics5 = getFontMetrics(g.getFont());
+        	g.drawString("NEW " , (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore))/2 - metrics5.stringWidth("NEW "), SCREEN_HEIGHT/2+IMAGE_SIZE);
         }
         new SetHighScore(highScore);
     }
@@ -822,6 +875,10 @@ public class Snake extends JPanel implements ActionListener {
     		newHighScore = true;
     	}
     }
+    
+    public void closeWindow() {
+    	SnakeFrame.visibleOff();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -863,7 +920,7 @@ public class Snake extends JPanel implements ActionListener {
                 level();
                 break;
             case "about" :
-                    JOptionPane.showMessageDialog(this,"Title : Snake Game \n Author : Manish Kumar \n Blog : www.justdocodings.blopspot.com","About",
+                    JOptionPane.showMessageDialog(this,"Title : Snake Game \n Reference of Author : Manish Kumar \n Blog : www.justdocodings.blopspot.com","About",
                         JOptionPane.INFORMATION_MESSAGE);
                 break;
             case "viewHelp" :
@@ -928,6 +985,11 @@ public class Snake extends JPanel implements ActionListener {
 			}	
 		}
 	}
+    
+    public boolean isGameOver() {
+    	if(running) return false;
+    	else return true;
+    }
 
     public class SAdapter extends KeyAdapter {
         @Override
@@ -961,10 +1023,13 @@ public class Snake extends JPanel implements ActionListener {
                     {
                         timer.start();
                         pause=false;
-                        timerSeconds.stop();
-                        
+                        timerSeconds.stop(); 
                     }
+                    if(!running) reset();
                 break;
+                
+                case KeyEvent.VK_ESCAPE:
+                	if(!running) closeWindow();
                 }
             }
             //eat poison
