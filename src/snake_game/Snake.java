@@ -99,6 +99,7 @@ public class Snake extends JPanel implements ActionListener {
     CountInSeconds countInSeconds;
     Timer timerSeconds;
     GetHighScore getHighScore = new GetHighScore();
+    DrawingString drawingString = new DrawingString();
     
     ///
     // menubar
@@ -213,6 +214,7 @@ public class Snake extends JPanel implements ActionListener {
          direction='R';
          snakeLength=4;
          score=0;
+         count = 0;
          for(int i=0;i<=nblock;i++)
          {
           block_x[i]=0;
@@ -574,50 +576,45 @@ public class Snake extends JPanel implements ActionListener {
     public void gameOver(Graphics g) {
         
     	//Game Over text
-        g.setColor(new Color(139, 23, 23));
-        g.setFont(new Font("Arial", Font.BOLD, 80));
-        FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (SCREEN_WIDTH - metrics1.stringWidth("Game Over")) / 2, SCREEN_HEIGHT/2-IMAGE_SIZE*8);
+    	Color topBottomColor = new Color(139, 23, 23);
+    	Font topFont = new Font("Arial", Font.BOLD, 80);
+    	drawingString = new DrawingStringMid(topBottomColor, topFont, "GAME OVER", SCREEN_WIDTH, SCREEN_HEIGHT/2-IMAGE_SIZE*8, g);
+		drawingString.draw();
         
         //Result text
-    	g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 30));
-        FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength, 
-        		(SCREEN_WIDTH - metrics2.stringWidth("Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength)) / 2,
-        		SCREEN_HEIGHT/2-IMAGE_SIZE);
-        
-        //High Score text
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 30));
-        FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("High Score: " + highScore, (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore)) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE);
+		drawingString = new DrawingStringMid(Color.BLACK, new Font("Arial", Font.BOLD, 30),
+				"Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength, SCREEN_WIDTH, SCREEN_HEIGHT/2-IMAGE_SIZE, g);
+		drawingString.draw();
+		
+		//High score text
+		drawingString = new DrawingStringMid(Color.BLACK, new Font("Arial", Font.BOLD, 30), "High Score: " + highScore, SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE, g);
+		drawingString.draw();
         
         //tips text
-        g.setColor(new Color(139, 23, 23));
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        FontMetrics metrics4 = getFontMetrics(g.getFont());
-        g.drawString("Press ESC to close", (SCREEN_WIDTH - metrics4.stringWidth("Press ESC to close")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*8);
-        g.drawString("Press SPACE to play again", (SCREEN_WIDTH - metrics4.stringWidth("Press SPACE to play again")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*9);
-        
+		drawingString = new DrawingStringMid(topBottomColor, new Font("Arial", Font.BOLD, 18), "Press ESC to close", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*8, g);
+		drawingString.draw();
+		drawingString = new DrawingStringMid(topBottomColor, new Font("Arial", Font.BOLD, 18), "Press SPACE to play again", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*9, g);
+		drawingString.draw();
+		
         //if new high score
        if(newHighScore==true) {
-        	g.setColor(Color.red);
-        	g.setFont(new Font("Ink Free", Font.BOLD, 30));
-        	FontMetrics metrics5 = getFontMetrics(g.getFont());
-        	g.drawString("NEW " , (SCREEN_WIDTH - metrics3.stringWidth("High Score: " + highScore))/2 - metrics5.stringWidth("NEW "), SCREEN_HEIGHT/2+IMAGE_SIZE);
+    	   drawingString = new DrawingStringSpecific(Color.RED, new Font("Ink Free", Font.BOLD, 30), "NEW", 420,  SCREEN_HEIGHT/2+IMAGE_SIZE, g);
+   			drawingString.draw();
         }
         new SetHighScore(highScore);
     }
     
     public void showScore(Graphics g)
     {
-        //Score        
-        g.setColor(Color.red);
-        g.setFont(new Font("Ink Free", Font.BOLD,15));
-        g.drawString("Score: "+ score,100,SCREEN_HEIGHT-30);
-        g.drawString("Level: "+ level,SCREEN_WIDTH-200,SCREEN_HEIGHT-30);
-        g.drawString("High Score: "+ highScore,SCREEN_WIDTH/2,SCREEN_HEIGHT-30);
+        //Bottom text Score        
+    	Color scoreColor = Color.RED;
+    	Font scoreFont = new Font("Ink Free", Font.BOLD,15);
+    	drawingString = new DrawingStringSpecific(scoreColor, scoreFont, "Level: "+ level, 300, SCREEN_HEIGHT-30, g);
+		drawingString.draw();
+		drawingString = new DrawingStringMid(scoreColor, scoreFont, "Score: "+ score, SCREEN_WIDTH, SCREEN_HEIGHT-30, g);
+		drawingString.draw();
+		drawingString = new DrawingStringSpecific(scoreColor, scoreFont, "High Score: "+ highScore, SCREEN_WIDTH-350, SCREEN_HEIGHT-30, g);
+		drawingString.draw();
         
     }
     
@@ -877,6 +874,7 @@ public class Snake extends JPanel implements ActionListener {
     }
     
     public void closeWindow() {
+    	MenuFrame.main(null);
     	SnakeFrame.visibleOff();
     }
 

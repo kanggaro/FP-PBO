@@ -44,6 +44,7 @@ public class Menu extends JPanel implements ActionListener {
     Image charaMenuDisplay;
     Image backgroundMenu;
     Image eagleMenu;
+    DrawingString drawingString = new DrawingString();
 	
 	public Menu() {
 		addKeyListener(new SAdapter());
@@ -144,10 +145,8 @@ public class Menu extends JPanel implements ActionListener {
 		//draw main menu
 		if(main_menu) {
 			//title
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("Arial", Font.BOLD, 130));
-	        FontMetrics metrics00 = getFontMetrics(g.getFont());
-	        g.drawString("SNAKE", (SCREEN_WIDTH - metrics00.stringWidth("SNAKE")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*21);
+			drawingString = new DrawingStringMid(Color.BLACK, new Font("Arial", Font.BOLD, 130), "SNAKE", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*21, g);
+			drawingString.draw();
 			
 	        //draw snake display
 	        g.drawImage(charaMenuDisplay, 270, 420, this);
@@ -155,38 +154,49 @@ public class Menu extends JPanel implements ActionListener {
 	        g.setFont(new Font("Sans", Font.BOLD, 35));
 	        FontMetrics metrics01 = getFontMetrics(g.getFont());
 	        
+	        //for button
+	        Font bottonFont = new Font("Sans", Font.BOLD, 35);
+	        
 			//button1
-			if(choose==1) g.setColor(new Color(211,18,18));
-			else g.setColor(new Color(196,206,116));
-	        g.drawString("Start Game", (SCREEN_WIDTH - metrics01.stringWidth("Start Game")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*17);
+	        Color button1Color;
+			if(choose==1) button1Color = new Color(211,18,18);
+			else button1Color = new Color(196,206,116);
+			drawingString = new DrawingStringMid(button1Color, bottonFont, "Start Game", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*17, g);
+			drawingString.draw();
 			
 	        //button2
-	        if(choose==2) g.setColor(new Color(211,18,18));
-	        else g.setColor(new Color(196,206,116));
-	        g.drawString("Choose Skin", (SCREEN_WIDTH - metrics01.stringWidth("Choose Skin")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*15);
+			Color button2Color;
+			if(choose==2) button2Color = new Color(211,18,18);
+			else button2Color = new Color(196,206,116);
+			drawingString = new DrawingStringMid(button2Color, bottonFont, "Choose Skin", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*15, g);
+			drawingString.draw();
 			
 	        //button3
-	        if(choose==3) g.setColor(new Color(211,18,18));
-	        else g.setColor(new Color(196,206,116));
-	        g.drawString("Utilities", (SCREEN_WIDTH - metrics01.stringWidth("Utilities")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*13);
+			Color button3Color;
+			if(choose==3) button3Color = new Color(211,18,18);
+			else button3Color = new Color(196,206,116);
+			drawingString = new DrawingStringMid(button3Color, bottonFont, "Utilities", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*13, g);
+			drawingString.draw();
 			
 	        //button4
-	        if(choose==4) g.setColor(new Color(211,18,18));
-	        else g.setColor(new Color(196,206,116));
-	        g.drawString("Credits", (SCREEN_WIDTH - metrics01.stringWidth("Credits")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*11);
-			
+			Color button4Color;
+			if(choose==4) button4Color = new Color(211,18,18);
+			else button4Color = new Color(196,206,116);
+			drawingString = new DrawingStringMid(button4Color, bottonFont, "Credits", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*11, g);
+			drawingString.draw();
+						
 	        //button5
-	        if(choose==5) g.setColor(new Color(211,18,18));
-	        else g.setColor(new Color(196,206,116));
-	        g.drawString("Exit Game", (SCREEN_WIDTH - metrics01.stringWidth("Exit Game")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*9);
-	        
+			Color button5Color;
+			if(choose==5) button5Color = new Color(211,18,18);
+			else button5Color = new Color(196,206,116);
+			drawingString = new DrawingStringMid(button5Color, bottonFont, "Exit Game", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*9, g);
+			drawingString.draw();
+			
 	        //high score
 			GetHighScore highScore = new GetHighScore();
-			g.setColor(Color.WHITE);
-	        g.setFont(new Font("Sans", Font.BOLD, 40));
-	        FontMetrics metrics06 = getFontMetrics(g.getFont());
-	        g.drawString("High Score : " + highScore.getHighScore(), (SCREEN_WIDTH - metrics06.stringWidth("High Score : " + highScore.getHighScore())) / 2, SCREEN_HEIGHT-IMAGE_SIZE);
-	        
+			drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 40), "High Score : " + highScore.getHighScore(), SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
+			drawingString.draw();
+			
 	        //draw eagle on menu
 			count = countInSeconds.getCount();
 	        if(count%14==0 && count!=0 && eagleAppear==true) {
@@ -202,83 +212,89 @@ public class Menu extends JPanel implements ActionListener {
 		}
 		//draw start game
 		if(start_menu) {
-			g.setColor(new Color(211,18,18));
-	        g.setFont(new Font("Sans", Font.BOLD, 40));
-	        FontMetrics metrics1 = getFontMetrics(g.getFont());
-	        g.drawString("YEAY..KAMU AKAN MASUK ARENA", 
-	        		(SCREEN_WIDTH - metrics1.stringWidth("YEAY..KAMU AKAN MASUK ARENA")) / 2, SCREEN_HEIGHT/3);
-	        
-	        g.setColor(new Color(196,206,116));
-	        g.setFont(new Font("Sans", Font.BOLD, 35));
-	        FontMetrics metrics11 = getFontMetrics(g.getFont());
-	        g.drawString("Tekan SPASI / SPACE untuk memulai game", 
-	        		(SCREEN_WIDTH - metrics11.stringWidth("Tekan SPASI / SPACE untuk memulai game")) / 2, SCREEN_HEIGHT/2);
-	        g.drawString("Tekan ESC untuk kembali ke Main Menu", 
-	        		(SCREEN_WIDTH - metrics11.stringWidth("Tekan ESC untuk kembali ke Main Menu")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*3);
-	        
-	        g.setColor(Color.WHITE);
-	        g.setFont(new Font("Sans", Font.BOLD, 20));
-	        FontMetrics metrics12 = getFontMetrics(g.getFont());
-	        g.drawString("Short Guide", 
-	        		(SCREEN_WIDTH - metrics12.stringWidth("Short Guide")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*6);
-	        g.drawString("> Kamu bisa pilih level di panel kiri atas di arena", 
-	        		(SCREEN_WIDTH - metrics12.stringWidth("> Kamu bisa pilih level di panel kiri atas di arena")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*4);
-	        g.drawString("> Jika butuh pertolongsn tombol help tersedia di samping tombol level", 
-	        		(SCREEN_WIDTH - metrics12.stringWidth("> Jika butuh pertolongsn tombol help tersedia di samping tombol level")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*3);
+			
+			//upper text
+			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 40), "YEAY..KAMU AKAN MASUK ARENA", SCREEN_WIDTH, SCREEN_HEIGHT/3, g);
+			drawingString.draw();
+			
+			//middle text
+			Color midColor = new Color(196,206,116);
+			Font midFont = new Font("Sans", Font.BOLD, 35);
+			drawingString = new DrawingStringMid(midColor, midFont, "Tekan SPASI / SPACE untuk memulai game", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(midColor, midFont, "Tekan ESC untuk kembali ke Main Menu", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*3, g);
+			drawingString.draw();
+			
+			//bottom text
+			Color bottomColor = Color.WHITE;
+			Font bottomFont = new Font("Sans", Font.BOLD, 20);
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "Short Guide", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*6, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Kamu bisa pilih level di panel kiri atas di arena", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*4, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Jika butuh pertolongsn tombol help tersedia di samping tombol level", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
+			drawingString.draw();
+			
 		}
 		//draw choose characters page
 		if(characters_menu) {
-			g.setColor(new Color(211,18,18));
-	        g.setFont(new Font("Sans", Font.BOLD, 45));
-	        FontMetrics metrics2 = getFontMetrics(g.getFont());
-	        g.drawString("Choose Skin", (SCREEN_WIDTH - metrics2.stringWidth("Choose Skin")) / 2, SCREEN_HEIGHT/4);
-	        
+			//upper text
+			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Choose Skin", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+			drawingString.draw();
+			
+			//display image
 	        g.drawImage(charaDisplay, SCREEN_WIDTH/3+20, SCREEN_HEIGHT/3, this);
 	        
-	        g.setColor(Color.WHITE);
-	        g.setFont(new Font("Sans", Font.BOLD, 20));
-	        FontMetrics metrics21 = getFontMetrics(g.getFont());
-	        g.drawString("Press Left or Right to find skin, Press Enter to select, Press ESC to back", 
-	        		(SCREEN_WIDTH - metrics21.stringWidth("Press Left or Right to find skin, Press Enter to select, Press ESC to back")) / 2, SCREEN_HEIGHT-IMAGE_SIZE);
+	        //bottom text
+	        drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 20), "Press Left or Right to find skin, Press Enter to select, Press ESC to back", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
+			drawingString.draw();
+	        
 		}
 		//draw utilities
 		if(utilities_menu) {
-			g.setColor(Color.black);
-	        g.setFont(new Font("Sans", Font.BOLD, 45));
-	        FontMetrics metrics3 = getFontMetrics(g.getFont());
-	        g.drawString("UTILITIES", (SCREEN_WIDTH - metrics3.stringWidth("UTILITIES")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*24);
+			//upper text
+			drawingString = new DrawingStringMid(Color.BLACK, new Font("Sans", Font.BOLD, 45), "UTILITIES", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*24, g);
+			drawingString.draw();
+			
+			
 		}
 		//draw credits page
 		if(credits_menu) {
-			g.setColor(new Color(211,18,18));
-	        g.setFont(new Font("Sans", Font.BOLD, 60));
-	        FontMetrics metrics3 = getFontMetrics(g.getFont());
-	        g.drawString("THANKS TO DEVELOPERS", (SCREEN_WIDTH - metrics3.stringWidth("THANKS TO DEVELOPERS")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*22);
-	        
-	        g.setColor(new Color(196,206,116));
-	        g.setFont(new Font("Sans", Font.BOLD, 35));
-	        FontMetrics metrics31 = getFontMetrics(g.getFont());
-	        g.drawString("Muhammad Afif Dwi Ardhiansyah / 5025201212", 
-	        		(SCREEN_WIDTH - metrics31.stringWidth("Muhammad Afif Dwi Ardhiansyah / 5025201212")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*18);
-	        g.drawString("Muhammad Abror Al-Qushoyyi / 5025201028", 
-	        		(SCREEN_WIDTH - metrics31.stringWidth("Muhammad Abror Al-Qushoyyi / 5025201028")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*15);
-	        g.drawString("Gaudhiwa Hendrasto / 5025201066", 
-	        		(SCREEN_WIDTH - metrics31.stringWidth("Gaudhiwa Hendrasto / 5025201066")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*12);
-	        g.drawString("Beryl / 5025201029", 
-	        		(SCREEN_WIDTH - metrics31.stringWidth("Beryl / 5025201029")) / 2, SCREEN_HEIGHT-IMAGE_SIZE*9);
+			//upper text
+			Color topColor = new Color(211,18,18);
+			Font topFont = new Font("Sans", Font.BOLD, 60);
+			drawingString = new DrawingStringMid(topColor, topFont, "THANKS TO DEVELOPERS", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*22, g);
+			drawingString.draw();
+			
+			//name text
+			Color nameColor = new Color(196,206,116);
+			Font nameFont = new Font("Sans", Font.BOLD, 35);
+			drawingString = new DrawingStringMid(nameColor, nameFont, "Muhammad Afif Dwi Ardhiansyah / 5025201212", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*18, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(nameColor, nameFont, "Muhammad Abror Al-Qushoyyi / 5025201028", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*15, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(nameColor, nameFont, "Gaudhiwa Hendrasto / 5025201066", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*12, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(nameColor, nameFont, "Beryl / 5025201029", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*9, g);
+			drawingString.draw();
+			
 		}
-		//do exit
+		//exit page
 		if(exitMenu) {
-			g.setColor(new Color(211,18,18));
-	        g.setFont(new Font("Sans", Font.BOLD, 60));
-	        FontMetrics metrics4 = getFontMetrics(g.getFont());
-	        g.drawString("Are you sure want to Exit?", (SCREEN_WIDTH - metrics4.stringWidth("Are you sure want to Exit?")) / 2, SCREEN_HEIGHT/2-IMAGE_SIZE*4);
-	        
-	        g.setColor(Color.WHITE);
-	        g.setFont(new Font("Sans", Font.BOLD, 30));
-	        FontMetrics metrics41 = getFontMetrics(g.getFont());
-	        g.drawString("ENTER for YES", (SCREEN_WIDTH - metrics41.stringWidth("ENTER for YES")) / 2, SCREEN_HEIGHT/2);
-	        g.drawString("ESC for NO", (SCREEN_WIDTH - metrics41.stringWidth("ESC for NO")) / 2, SCREEN_HEIGHT/2+IMAGE_SIZE*2);
+			//upper text
+			Color topColor = new Color(211,18,18);
+			Font topFont = new Font("Sans", Font.BOLD, 60);
+			drawingString = new DrawingStringMid(topColor, topFont, "Are you sure want to Exit?", SCREEN_WIDTH, SCREEN_HEIGHT/2-IMAGE_SIZE*4, g);
+			drawingString.draw();
+			
+			//middle text
+			Color midColor= Color.WHITE;
+			Font midFont = new Font("Sans", Font.BOLD, 30);
+			drawingString = new DrawingStringMid(midColor, midFont, "ENTER for YES", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
+			drawingString.draw();
+			drawingString = new DrawingStringMid(midColor, midFont, "ESC for NO", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*2, g);
+			drawingString.draw();
+			
 		}
 	}
 	
@@ -326,6 +342,7 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void startGame() {
 		SnakeFrame.mainSnake();
+		MenuFrame.visibleOff();
 	}
 	
 	public void backToMain() {
