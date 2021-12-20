@@ -376,6 +376,8 @@ public class Menu extends JPanel implements ActionListener {
 			drawingString.draw();
 			drawingString = new DrawingStringMid(nameColor, nameFont, "Beryl / 5025201029", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*9, g);
 			drawingString.draw();
+			drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25),"Song : Monplaisir_-_03_-_Level_0", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
+			drawingString.draw();
 			
 		}
 		//exit page
