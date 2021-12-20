@@ -4,6 +4,7 @@ package snake_game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Snake extends JPanel implements ActionListener {
@@ -81,7 +82,6 @@ public class Snake extends JPanel implements ActionListener {
     boolean pause = false;
     boolean goldAppleAppear = false;
     boolean goldAppleEaten = false;
-    boolean pauseAppear = false;
 
     Timer timer;
     Random random;
@@ -409,19 +409,14 @@ public class Snake extends JPanel implements ActionListener {
     
     public void doDrawings(Graphics g)
     {
-
     	//background
 //    	g.drawImage(backgroundArena, 0, 0, this);
-
+    	
         if(running)
         {
             count = countInSeconds.getCount();
             
-            if(pause){
-                drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "PAUSE", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-		        drawingString.draw();
-                pauseAppear = true;
-            }
+            
 
             //apple biasa aja 
             g.drawImage(food,foodX*IMAGE_SIZE,foodY*IMAGE_SIZE,this);
@@ -570,12 +565,6 @@ public class Snake extends JPanel implements ActionListener {
             gameOver(g);
         }
     }
-
-    // public void drawPause(){
-    //     Graphics g;
-    //     drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "PAUSE", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-	// 	drawingString.draw();
-    // } 
     
     @Override
     public void paintComponent(Graphics g) {
@@ -594,7 +583,7 @@ public class Snake extends JPanel implements ActionListener {
         
         //Result text
 		drawingString = new DrawingStringMid(Color.BLACK, new Font("Arial", Font.BOLD, 30),
-				"Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Length: " + snakeLength, SCREEN_WIDTH, SCREEN_HEIGHT/2-IMAGE_SIZE, g);
+				"Apple Eaten: " + appleEaten + "     Score: " + score + "     Snake Lenght: " + snakeLength, SCREEN_WIDTH, SCREEN_HEIGHT/2-IMAGE_SIZE, g);
 		drawingString.draw();
 		
 		//High score text
@@ -946,10 +935,6 @@ public class Snake extends JPanel implements ActionListener {
             isEagleHitSnake();
             eagleMove();
             checkHighScore();
-            if(pauseAppear){
-                timer.stop();
-                timerSeconds.stop();
-            }
         }
         repaint();
     }
@@ -1026,22 +1011,19 @@ public class Snake extends JPanel implements ActionListener {
                         direction='D';
                     break;
                 case KeyEvent.VK_SPACE:
-                    
                     if(pause==false)
                     {
+                        timer.stop();
+                        timerSeconds.stop();
                         pause = true;
-                        // timer.stop();
-                        // timerSeconds.stop();
                     }
                     else if(pause==true)
                     {
                         timer.start();
-                        pauseAppear=false;
                         pause=false;
                         timerSeconds.stop(); 
                     }
                     if(!running) reset();
-
                 break;
                 
                 case KeyEvent.VK_ESCAPE:

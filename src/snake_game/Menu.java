@@ -3,29 +3,19 @@ package snake_game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.net.URL;
-import java.awt.PointerInfo;
-import java.awt.MouseInfo;
-import java.awt.Point;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import snake_game.Menu.MouseAdapter;
-import snake_game.Menu.Sound;
-
+import snake_game.Snake.SAdapter;
 
 public class Menu extends JPanel implements ActionListener {
 	
@@ -34,10 +24,8 @@ public class Menu extends JPanel implements ActionListener {
     static final int IMAGE_SIZE = 20;
     static final int TOTAL_MENU = 5;
     static final int TOTAL_CHARA = 4;
-	static final int TOTAL_UTIL = 6;
     int choose = 1;
     int chooseHorizontal;
-	int chooseHorizontalUtil = 1;
     int eagleMenuX;
     int eagleMenuY;
     private int count;
@@ -56,20 +44,14 @@ public class Menu extends JPanel implements ActionListener {
     Image charaMenuDisplay;
     Image backgroundMenu;
     Image eagleMenu;
-	Image arrowLeft;
-	Image arrowRight;
-	Image escape;
-	Sound sound = new Sound();
     DrawingString drawingString = new DrawingString();
 	
 	public Menu() {
 		addKeyListener(new SAdapter());
-		addMouseListener(new MouseAdapter());
         setBackground(new Color(22,182,123));
         setFocusable(true);
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         loadImage();
-        playMusic();
         timer = new Timer(50, this);
         timer.start();
         countInSeconds = new CountInSeconds();
@@ -94,20 +76,6 @@ public class Menu extends JPanel implements ActionListener {
 		//character select
 		GetCharacter snakeSelect = new GetCharacter();
 		ImageIcon imgDisplay = null;
-
-		//arrow 
-		ImageIcon arrow = null;
-		arrow = new ImageIcon("img/arrowLeft.png");
-		arrowLeft = arrow.getImage();
-		
-		//escape
-		ImageIcon escImg = null;
-		escImg = new ImageIcon("img/close.png");
-		escape = escImg.getImage();
-
-		arrow = new ImageIcon("img/arrowRight.png");
-		arrowRight = arrow.getImage();
-
 		chooseHorizontal = snakeSelect.getSelectedCharacter();
 		switch(snakeSelect.getSelectedCharacter()) {
 		case 1:
@@ -169,33 +137,6 @@ public class Menu extends JPanel implements ActionListener {
 		}
 		charaMenuDisplay = imgSnkMenu.getImage();
 	}
-
-	public void loadImageUtilitesRun() {
-		//utilities menu
-		ImageIcon imgDisplay = null;
-		switch(chooseHorizontalUtil) {
-		case 1:
-			imgDisplay = new ImageIcon("img/utilitiesRedApple.png");
-			break;
-		case 2:
-			imgDisplay = new ImageIcon("img/utilitiesGoldApple.png");
-			break;
-		case 3:
-			imgDisplay = new ImageIcon("img/utilitiesBerry.png");
-			break;
-		case 4:
-			imgDisplay = new ImageIcon("img/utilitiesVegetable.png");
-			break;
-		case 5:
-			imgDisplay = new ImageIcon("img/utilitiesPoison.png");
-			break;
-		case 6:
-			imgDisplay = new ImageIcon("img/utilitiesEagle.png");
-			break;
-		}
-		charaDisplay = imgDisplay.getImage();
-		
-	}
 	
 	public void draw(Graphics g) {
 		//draw background
@@ -211,6 +152,7 @@ public class Menu extends JPanel implements ActionListener {
 	        g.drawImage(charaMenuDisplay, 270, 420, this);
 	        
 	        g.setFont(new Font("Sans", Font.BOLD, 35));
+	        FontMetrics metrics01 = getFontMetrics(g.getFont());
 	        
 	        //for button
 	        Font bottonFont = new Font("Sans", Font.BOLD, 35);
@@ -272,15 +214,15 @@ public class Menu extends JPanel implements ActionListener {
 		if(start_menu) {
 			
 			//upper text
-			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 40), "YEAY..YOU WILL ENTER THE ARENA", SCREEN_WIDTH, SCREEN_HEIGHT/3, g);
+			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 40), "YEAY..KAMU AKAN MASUK ARENA", SCREEN_WIDTH, SCREEN_HEIGHT/3, g);
 			drawingString.draw();
 			
 			//middle text
 			Color midColor = new Color(196,206,116);
 			Font midFont = new Font("Sans", Font.BOLD, 35);
-			drawingString = new DrawingStringMid(midColor, midFont, "Press SPACE to start the game", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
+			drawingString = new DrawingStringMid(midColor, midFont, "Tekan SPASI / SPACE untuk memulai game", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(midColor, midFont, "Press ESC to return to Main Menu", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*3, g);
+			drawingString = new DrawingStringMid(midColor, midFont, "Tekan ESC untuk kembali ke Main Menu", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*3, g);
 			drawingString.draw();
 			
 			//bottom text
@@ -288,9 +230,9 @@ public class Menu extends JPanel implements ActionListener {
 			Font bottomFont = new Font("Sans", Font.BOLD, 20);
 			drawingString = new DrawingStringMid(bottomColor, bottomFont, "Short Guide", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*6, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> You can select the level in the top left panel in the arena", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*4, g);
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Kamu bisa pilih level di panel kiri atas di arena", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*4, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> If you need help, the help button is available next to the level button", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Jika butuh pertolongsn tombol help tersedia di samping tombol level", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
 			drawingString.draw();
 			
 		}
@@ -302,10 +244,6 @@ public class Menu extends JPanel implements ActionListener {
 			
 			//display image
 	        g.drawImage(charaDisplay, SCREEN_WIDTH/3+20, SCREEN_HEIGHT/3, this);
-
-			//arrow
-			g.drawImage(arrowLeft, 100, SCREEN_HEIGHT/2, this);
-			g.drawImage(arrowRight, SCREEN_WIDTH-200, SCREEN_HEIGHT/2, this);
 	        
 	        //bottom text
 	        drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 20), "Press Left or Right to find skin, Press Enter to select, Press ESC to back", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
@@ -313,53 +251,12 @@ public class Menu extends JPanel implements ActionListener {
 	        
 		}
 		//draw utilities
-		if(utilities_menu) {			
-			//display image
-	        g.drawImage(charaDisplay, (SCREEN_WIDTH/2)-125, SCREEN_HEIGHT/3, this);
-
-			//arrow
-			g.drawImage(arrowLeft, 100, SCREEN_HEIGHT/2, this);
-			g.drawImage(arrowRight, SCREEN_WIDTH-200, SCREEN_HEIGHT/2, this);
-	        
-			//bottom text
-			switch(chooseHorizontalUtil) {
-				case 1:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats the red apple, the score will increase by +10 points", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Red Apple", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				case 2:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats the Golden Apple, the score will be doubled within a certain time.", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Golden Apple", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				case 3:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats Raspberry, the score will increase by +30 points", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Raspberry", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				case 4:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If a snake eats vegetables, its body will be on a diet (shortened)", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Vegetables", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				case 5:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If a snake eats poison, it will move in the opposite direction", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Poison", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				case 6:
-					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake is hit by an eagle, the snake will be eaten by the eagle and the game is over", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
-					drawingString.draw();
-					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Eagle", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
-					drawingString.draw();
-					break;
-				}
+		if(utilities_menu) {
+			//upper text
+			drawingString = new DrawingStringMid(Color.BLACK, new Font("Sans", Font.BOLD, 45), "UTILITIES", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*24, g);
+			drawingString.draw();
+			
+			
 		}
 		//draw credits page
 		if(credits_menu) {
@@ -398,11 +295,6 @@ public class Menu extends JPanel implements ActionListener {
 			drawingString = new DrawingStringMid(midColor, midFont, "ESC for NO", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*2, g);
 			drawingString.draw();
 			
-		}
-		
-		//for escape button
-		if(!main_menu) {
-			g.drawImage(escape, 30, 30, this);
 		}
 	}
 	
@@ -464,7 +356,6 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void exit() {
 		MenuFrame.closeMenuFrame();
-		stopMusic();
 	}
 	
 	@Override
@@ -472,141 +363,12 @@ public class Menu extends JPanel implements ActionListener {
         super.paintComponent(g);
         draw(g);
         loadImageRun();
-		if(utilities_menu)
-		loadImageUtilitesRun();
     }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		eagleMenuMove();
 		repaint();
-		hover();
-	}
-	
-	public void hover() {
-		Point reference = getLocationOnScreen();
-		int xHover = MouseInfo.getPointerInfo().getLocation().x-reference.x;
-        int yHover = MouseInfo.getPointerInfo().getLocation().y-reference.y; 
-        try { //Update screen every 33 miliseconds = 25 FPS
-            Thread.sleep(33);
-            } catch(InterruptedException bug) {
-            Thread.currentThread().interrupt();
-            }
-        
-		if(main_menu) {
-			if(xHover > 512 && xHover < 691 && yHover > 200 && yHover < 250) {
-				choose = 1;
-			}
-			else if (xHover > 450 && xHover < 700 && yHover > 250 && yHover < 300) {
-				choose = 2;
-			}
-			else if (xHover > 450 && xHover < 700 && yHover > 300 && yHover < 350) {
-				choose = 3;
-			}
-			else if (xHover > 450 && xHover < 700 && yHover > 350 && yHover < 400) {
-				choose = 4;
-			}
-			else if (xHover > 450 && xHover < 700 && yHover > 400 && yHover < 480) {
-				choose = 5;
-			}
-		}
-	}
-	
-	public class MouseAdapter implements MouseListener{
-
-		public void MouseAdapter() {
-			
-		}
-		@Override
-		public void mousePressed(MouseEvent e) {
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			
-			
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-				
-			int x = e.getX();
-			int y = e.getY();
-			//button on menu
-			if(main_menu) {
-				if(x > 512 && x < 691 && y > 200 && y < 260) {
-					choose = 1;
-					checkKeyMenu();
-				}
-				else if (x > 450 && x < 700 && y > 260 && y < 310) {
-					choose = 2;
-					checkKeyMenu();
-				}
-				else if (x > 450 && x < 700 && y > 310 && y < 350) {
-					choose = 3;
-					checkKeyMenu();
-				}
-				else if (x > 450 && x < 700 && y > 350 && y < 390) {
-					choose = 4;
-					checkKeyMenu();
-				}
-				else if (x > 450 && x < 700 && y > 390 && y < 480) {
-					choose = 5;
-					checkKeyMenu();
-				}
-			}
-			//button on exit page
-			if(exitMenu) {
-				if(x > 490 && x < 710 && y > 270 && y < 310) {
-					exit();
-				}
-				else if(x > 490 && x < 710 && y > 310 && y < 350) {
-					backToMain();
-				}
-			}
-			//escape button
-			if(!main_menu) {
-				if(x>20 && x<114 && y>20 && y <114)
-					backToMain();
-			}
-			//arrow button
-			if(characters_menu || utilities_menu) {
-				//left
-				if(x>100 && x<170 && y>SCREEN_HEIGHT/2 && y<SCREEN_HEIGHT/2+70) {
-					if(characters_menu) {
-						if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
-						else chooseHorizontal--;
-					}
-					else if(utilities_menu) {
-						if(chooseHorizontalUtil==1) chooseHorizontalUtil = TOTAL_UTIL;
-						else chooseHorizontalUtil--;
-					}
-				}
-				else if(x>SCREEN_WIDTH-200 && x<SCREEN_WIDTH-200+70 && y>SCREEN_HEIGHT/2 && y<SCREEN_HEIGHT/2+70) {
-					if(characters_menu) {
-						if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
-						else chooseHorizontal++;
-					}
-					else if(utilities_menu) {
-						if(chooseHorizontalUtil==TOTAL_UTIL) chooseHorizontalUtil = 1;
-						else chooseHorizontalUtil++;
-					}
-				}
-			}
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			
-		}
-		
 	}
 	
 	public class SAdapter extends KeyAdapter{
@@ -623,24 +385,12 @@ public class Menu extends JPanel implements ActionListener {
 				else choose+=1;
 				break;
 			case KeyEvent.VK_RIGHT:
-				if(characters_menu){
-					if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
-					else chooseHorizontal+=1;
-				}
-				else if(utilities_menu){
-					if(chooseHorizontalUtil==TOTAL_UTIL) chooseHorizontalUtil = 1;
-					else chooseHorizontalUtil+=1;
-				}
+				if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
+				else chooseHorizontal+=1;
 				break;
 			case KeyEvent.VK_LEFT:
-				if(characters_menu){
-					if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
-					else chooseHorizontal-=1;
-				}
-				else if(utilities_menu){
-					if(chooseHorizontalUtil==1) chooseHorizontalUtil = TOTAL_UTIL;
-					else chooseHorizontalUtil-=1;
-				}
+				if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
+				else chooseHorizontal-=1;
 				break;
 			case KeyEvent.VK_ENTER:
 				if(main_menu) checkKeyMenu();
@@ -681,47 +431,5 @@ public class Menu extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			count++;		
 		}		
-	}
-	public class Sound 
-	{
-		Clip clip;
-		URL soundURL[] = new URL[30];
-		
-		public Sound() {
-			soundURL[0] = getClass().getResource("/snd/Level0.wav");
-		}
-		
-		public void setFile() {
-			try {
-				AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[0]);
-				clip = AudioSystem.getClip();
-				clip.open(ais); 
-			}catch (Exception e) {
-				
-			}
-		}
-		
-		public void play() {
-			clip.start();
-		}
-		
-		public void stop() {
-			clip.stop();
-		}
-		
-		public void loop() {
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-		
-	}
-	
-	public void playMusic() {
-		sound.setFile();
-		sound.play();
-		sound.loop();
-	}
-	
-	public void stopMusic() {
-		sound.stop();
 	}
 }
