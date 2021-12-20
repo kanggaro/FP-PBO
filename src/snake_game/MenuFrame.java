@@ -33,5 +33,6 @@ public class MenuFrame extends JFrame {
 	public static void main(String[] args) {
 		jf = new MenuFrame();
 	    jf.setVisible(true);
+	    
 	}
 }
