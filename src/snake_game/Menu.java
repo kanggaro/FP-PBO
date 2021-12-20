@@ -54,6 +54,7 @@ public class Menu extends JPanel implements ActionListener {
 	Image arrowLeft;
 	Image arrowRight;
 	Image escape;
+	Sound sound = new Sound();
     DrawingString drawingString = new DrawingString();
 	
 	public Menu() {
@@ -63,6 +64,7 @@ public class Menu extends JPanel implements ActionListener {
         setFocusable(true);
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         loadImage();
+        playMusic();
         timer = new Timer(50, this);
         timer.start();
         countInSeconds = new CountInSeconds();
@@ -458,6 +460,7 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void exit() {
 		MenuFrame.closeMenuFrame();
+		stopMusic();
 	}
 	
 	@Override
@@ -649,6 +652,16 @@ public class Menu extends JPanel implements ActionListener {
 				}
 			}
 		}	
+	}
+	
+	public void playMusic() {
+		sound.setFile();
+		sound.play();
+		sound.loop();
+	}
+	
+	public void stopMusic() {
+		sound.stop();
 	}
 	
 //	public class CountInSeconds implements ActionListener {
