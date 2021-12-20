@@ -1,9 +1,5 @@
 package snake_game;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 import javax.swing.*;
 
 public class SnakeFrame extends JFrame  {

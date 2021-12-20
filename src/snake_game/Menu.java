@@ -3,7 +3,6 @@ package snake_game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,7 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import snake_game.Snake.SAdapter;
 
 public class Menu extends JPanel implements ActionListener {
 	
@@ -24,8 +22,10 @@ public class Menu extends JPanel implements ActionListener {
     static final int IMAGE_SIZE = 20;
     static final int TOTAL_MENU = 5;
     static final int TOTAL_CHARA = 4;
+	static final int TOTAL_UTIL = 6;
     int choose = 1;
     int chooseHorizontal;
+	int chooseHorizontalUtil = 1;
     int eagleMenuX;
     int eagleMenuY;
     private int count;
@@ -44,6 +44,8 @@ public class Menu extends JPanel implements ActionListener {
     Image charaMenuDisplay;
     Image backgroundMenu;
     Image eagleMenu;
+	Image arrowLeft;
+	Image arrowRight;
     DrawingString drawingString = new DrawingString();
 	
 	public Menu() {
@@ -76,6 +78,15 @@ public class Menu extends JPanel implements ActionListener {
 		//character select
 		GetCharacter snakeSelect = new GetCharacter();
 		ImageIcon imgDisplay = null;
+
+		//arrow 
+		ImageIcon arrow = null;
+		arrow = new ImageIcon("img/arrowLeft.png");
+		arrowLeft = arrow.getImage();
+
+		arrow = new ImageIcon("img/arrowRight.png");
+		arrowRight = arrow.getImage();
+
 		chooseHorizontal = snakeSelect.getSelectedCharacter();
 		switch(snakeSelect.getSelectedCharacter()) {
 		case 1:
@@ -137,6 +148,33 @@ public class Menu extends JPanel implements ActionListener {
 		}
 		charaMenuDisplay = imgSnkMenu.getImage();
 	}
+
+	public void loadImageUtilitesRun() {
+		//utilities menu
+		ImageIcon imgDisplay = null;
+		switch(chooseHorizontalUtil) {
+		case 1:
+			imgDisplay = new ImageIcon("img/utilitiesRedApple.png");
+			break;
+		case 2:
+			imgDisplay = new ImageIcon("img/utilitiesGoldApple.png");
+			break;
+		case 3:
+			imgDisplay = new ImageIcon("img/utilitiesBerry.png");
+			break;
+		case 4:
+			imgDisplay = new ImageIcon("img/utilitiesVegetable.png");
+			break;
+		case 5:
+			imgDisplay = new ImageIcon("img/utilitiesPoison.png");
+			break;
+		case 6:
+			imgDisplay = new ImageIcon("img/utilitiesEagle.png");
+			break;
+		}
+		charaDisplay = imgDisplay.getImage();
+		
+	}
 	
 	public void draw(Graphics g) {
 		//draw background
@@ -152,7 +190,6 @@ public class Menu extends JPanel implements ActionListener {
 	        g.drawImage(charaMenuDisplay, 270, 420, this);
 	        
 	        g.setFont(new Font("Sans", Font.BOLD, 35));
-	        FontMetrics metrics01 = getFontMetrics(g.getFont());
 	        
 	        //for button
 	        Font bottonFont = new Font("Sans", Font.BOLD, 35);
@@ -214,15 +251,15 @@ public class Menu extends JPanel implements ActionListener {
 		if(start_menu) {
 			
 			//upper text
-			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 40), "YEAY..KAMU AKAN MASUK ARENA", SCREEN_WIDTH, SCREEN_HEIGHT/3, g);
+			drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 40), "YEAY..YOU WILL ENTER THE ARENA", SCREEN_WIDTH, SCREEN_HEIGHT/3, g);
 			drawingString.draw();
 			
 			//middle text
 			Color midColor = new Color(196,206,116);
 			Font midFont = new Font("Sans", Font.BOLD, 35);
-			drawingString = new DrawingStringMid(midColor, midFont, "Tekan SPASI / SPACE untuk memulai game", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
+			drawingString = new DrawingStringMid(midColor, midFont, "Press SPACE to start the game", SCREEN_WIDTH, SCREEN_HEIGHT/2, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(midColor, midFont, "Tekan ESC untuk kembali ke Main Menu", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*3, g);
+			drawingString = new DrawingStringMid(midColor, midFont, "Press ESC to return to Main Menu", SCREEN_WIDTH, SCREEN_HEIGHT/2+IMAGE_SIZE*3, g);
 			drawingString.draw();
 			
 			//bottom text
@@ -230,9 +267,9 @@ public class Menu extends JPanel implements ActionListener {
 			Font bottomFont = new Font("Sans", Font.BOLD, 20);
 			drawingString = new DrawingStringMid(bottomColor, bottomFont, "Short Guide", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*6, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Kamu bisa pilih level di panel kiri atas di arena", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*4, g);
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> You can select the level in the top left panel in the arena", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*4, g);
 			drawingString.draw();
-			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> Jika butuh pertolongsn tombol help tersedia di samping tombol level", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
+			drawingString = new DrawingStringMid(bottomColor, bottomFont, "> If you need help, the help button is available next to the level button", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*3, g);
 			drawingString.draw();
 			
 		}
@@ -244,6 +281,10 @@ public class Menu extends JPanel implements ActionListener {
 			
 			//display image
 	        g.drawImage(charaDisplay, SCREEN_WIDTH/3+20, SCREEN_HEIGHT/3, this);
+
+			//arrow
+			g.drawImage(arrowLeft, 100, SCREEN_HEIGHT/2, this);
+			g.drawImage(arrowRight, SCREEN_WIDTH-200, SCREEN_HEIGHT/2, this);
 	        
 	        //bottom text
 	        drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 20), "Press Left or Right to find skin, Press Enter to select, Press ESC to back", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
@@ -251,12 +292,56 @@ public class Menu extends JPanel implements ActionListener {
 	        
 		}
 		//draw utilities
-		if(utilities_menu) {
-			//upper text
-			drawingString = new DrawingStringMid(Color.BLACK, new Font("Sans", Font.BOLD, 45), "UTILITIES", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE*24, g);
-			drawingString.draw();
-			
-			
+		if(utilities_menu) {			
+			//display image
+	        g.drawImage(charaDisplay, (SCREEN_WIDTH/2)-125, SCREEN_HEIGHT/3, this);
+
+			//arrow
+			g.drawImage(arrowLeft, 100, SCREEN_HEIGHT/2, this);
+			g.drawImage(arrowRight, SCREEN_WIDTH-200, SCREEN_HEIGHT/2, this);
+	        
+			//bottom text
+			switch(chooseHorizontalUtil) {
+				case 1:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats the red apple, the score will increase by +10 points", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Red Apple", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				case 2:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats the Golden Apple, the score will be doubled within a certain time.", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Golden Apple", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				case 3:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake eats Raspberry, the score will increase by +30 points", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Raspberry", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				case 4:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If a snake eats vegetables, its body will be on a diet (shortened)", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Vegetables", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				case 5:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If a snake eats poison, it will move in the opposite direction", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Poison", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				case 6:
+					drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 25), "If the snake is hit by an eagle, the snake will be eaten by the eagle and the game is over", SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE-40, g);
+					drawingString.draw();
+					drawingString = new DrawingStringMid(new Color(211,18,18), new Font("Sans", Font.BOLD, 45), "Eagle", SCREEN_WIDTH, SCREEN_HEIGHT/4, g);
+					drawingString.draw();
+					break;
+				}
+
+				
+				
 		}
 		//draw credits page
 		if(credits_menu) {
@@ -362,7 +447,10 @@ public class Menu extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
+		if(characters_menu)
         loadImageRun();
+		if(utilities_menu)
+		loadImageUtilitesRun();
     }
 	
 	@Override
@@ -385,12 +473,24 @@ public class Menu extends JPanel implements ActionListener {
 				else choose+=1;
 				break;
 			case KeyEvent.VK_RIGHT:
-				if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
-				else chooseHorizontal+=1;
+				if(characters_menu){
+					if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
+					else chooseHorizontal+=1;
+				}
+				else if(utilities_menu){
+					if(chooseHorizontalUtil==TOTAL_UTIL) chooseHorizontalUtil = 1;
+					else chooseHorizontalUtil+=1;
+				}
 				break;
 			case KeyEvent.VK_LEFT:
-				if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
-				else chooseHorizontal-=1;
+				if(characters_menu){
+					if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
+					else chooseHorizontal-=1;
+				}
+				else if(utilities_menu){
+					if(chooseHorizontalUtil==1) chooseHorizontalUtil = TOTAL_UTIL;
+					else chooseHorizontalUtil-=1;
+				}
 				break;
 			case KeyEvent.VK_ENTER:
 				if(main_menu) checkKeyMenu();
