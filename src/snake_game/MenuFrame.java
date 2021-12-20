@@ -1,5 +1,7 @@
 package snake_game;
 
+import java.awt.Point;
+
 import javax.swing.*;
 
 
@@ -26,8 +28,6 @@ public class MenuFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		jf = new MenuFrame();
-	      jf.setVisible(true);
-
+	    jf.setVisible(true);
 	}
-
 }

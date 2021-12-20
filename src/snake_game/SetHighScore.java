@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-public class SetHighScore {
+public class SetHighScore extends SetFile{
 	
 	public SetHighScore(int score) {
+		super(score);
 		File file = new File("highscore.txt");
 		PrintWriter pw;
 		try{
