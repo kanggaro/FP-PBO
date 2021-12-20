@@ -1,5 +1,7 @@
 package snake_game;
 
+import java.awt.Point;
+
 import javax.swing.*;
 
 

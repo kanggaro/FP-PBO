@@ -9,10 +9,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.URL;
+import java.awt.PointerInfo;
+import java.awt.MouseInfo;
+import java.awt.Point;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import snake_game.Menu.MouseAdapter;
+import snake_game.Menu.Sound;
 
 
 public class Menu extends JPanel implements ActionListener {
@@ -46,14 +58,18 @@ public class Menu extends JPanel implements ActionListener {
     Image eagleMenu;
 	Image arrowLeft;
 	Image arrowRight;
+	Image escape;
+	Sound sound = new Sound();
     DrawingString drawingString = new DrawingString();
 	
 	public Menu() {
 		addKeyListener(new SAdapter());
+		addMouseListener(new MouseAdapter());
         setBackground(new Color(22,182,123));
         setFocusable(true);
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         loadImage();
+        playMusic();
         timer = new Timer(50, this);
         timer.start();
         countInSeconds = new CountInSeconds();
@@ -83,6 +99,11 @@ public class Menu extends JPanel implements ActionListener {
 		ImageIcon arrow = null;
 		arrow = new ImageIcon("img/arrowLeft.png");
 		arrowLeft = arrow.getImage();
+		
+		//escape
+		ImageIcon escImg = null;
+		escImg = new ImageIcon("img/close.png");
+		escape = escImg.getImage();
 
 		arrow = new ImageIcon("img/arrowRight.png");
 		arrowRight = arrow.getImage();
@@ -378,6 +399,11 @@ public class Menu extends JPanel implements ActionListener {
 			drawingString.draw();
 			
 		}
+		
+		//for escape button
+		if(!main_menu) {
+			g.drawImage(escape, 30, 30, this);
+		}
 	}
 	
 	public void newEagleMenu() {
@@ -438,13 +464,13 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void exit() {
 		MenuFrame.closeMenuFrame();
+		stopMusic();
 	}
 	
 	@Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
-		if(characters_menu)
         loadImageRun();
 		if(utilities_menu)
 		loadImageUtilitesRun();
@@ -454,6 +480,133 @@ public class Menu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		eagleMenuMove();
 		repaint();
+		hover();
+	}
+	
+	public void hover() {
+		Point reference = getLocationOnScreen();
+		int xHover = MouseInfo.getPointerInfo().getLocation().x-reference.x;
+        int yHover = MouseInfo.getPointerInfo().getLocation().y-reference.y; 
+        try { //Update screen every 33 miliseconds = 25 FPS
+            Thread.sleep(33);
+            } catch(InterruptedException bug) {
+            Thread.currentThread().interrupt();
+            }
+        
+		if(main_menu) {
+			if(xHover > 512 && xHover < 691 && yHover > 200 && yHover < 250) {
+				choose = 1;
+			}
+			else if (xHover > 450 && xHover < 700 && yHover > 250 && yHover < 300) {
+				choose = 2;
+			}
+			else if (xHover > 450 && xHover < 700 && yHover > 300 && yHover < 350) {
+				choose = 3;
+			}
+			else if (xHover > 450 && xHover < 700 && yHover > 350 && yHover < 400) {
+				choose = 4;
+			}
+			else if (xHover > 450 && xHover < 700 && yHover > 400 && yHover < 480) {
+				choose = 5;
+			}
+		}
+	}
+	
+	public class MouseAdapter implements MouseListener{
+
+		public void MouseAdapter() {
+			
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			
+			
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+				
+			int x = e.getX();
+			int y = e.getY();
+			//button on menu
+			if(main_menu) {
+				if(x > 512 && x < 691 && y > 200 && y < 260) {
+					choose = 1;
+					checkKeyMenu();
+				}
+				else if (x > 450 && x < 700 && y > 260 && y < 310) {
+					choose = 2;
+					checkKeyMenu();
+				}
+				else if (x > 450 && x < 700 && y > 310 && y < 350) {
+					choose = 3;
+					checkKeyMenu();
+				}
+				else if (x > 450 && x < 700 && y > 350 && y < 390) {
+					choose = 4;
+					checkKeyMenu();
+				}
+				else if (x > 450 && x < 700 && y > 390 && y < 480) {
+					choose = 5;
+					checkKeyMenu();
+				}
+			}
+			//button on exit page
+			if(exitMenu) {
+				if(x > 490 && x < 710 && y > 270 && y < 310) {
+					exit();
+				}
+				else if(x > 490 && x < 710 && y > 310 && y < 350) {
+					backToMain();
+				}
+			}
+			//escape button
+			if(!main_menu) {
+				if(x>20 && x<114 && y>20 && y <114)
+					backToMain();
+			}
+			//arrow button
+			if(characters_menu || utilities_menu) {
+				//left
+				if(x>100 && x<170 && y>SCREEN_HEIGHT/2 && y<SCREEN_HEIGHT/2+70) {
+					if(characters_menu) {
+						if(chooseHorizontal==1) chooseHorizontal = TOTAL_CHARA;
+						else chooseHorizontal--;
+					}
+					else if(utilities_menu) {
+						if(chooseHorizontalUtil==1) chooseHorizontalUtil = TOTAL_UTIL;
+						else chooseHorizontalUtil--;
+					}
+				}
+				else if(x>SCREEN_WIDTH-200 && x<SCREEN_WIDTH-200+70 && y>SCREEN_HEIGHT/2 && y<SCREEN_HEIGHT/2+70) {
+					if(characters_menu) {
+						if(chooseHorizontal==TOTAL_CHARA) chooseHorizontal = 1;
+						else chooseHorizontal++;
+					}
+					else if(utilities_menu) {
+						if(chooseHorizontalUtil==TOTAL_UTIL) chooseHorizontalUtil = 1;
+						else chooseHorizontalUtil++;
+					}
+				}
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			
+		}
+		
 	}
 	
 	public class SAdapter extends KeyAdapter{
@@ -528,5 +681,47 @@ public class Menu extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			count++;		
 		}		
+	}
+	public class Sound 
+	{
+		Clip clip;
+		URL soundURL[] = new URL[30];
+		
+		public Sound() {
+			soundURL[0] = getClass().getResource("/snd/Level0.wav");
+		}
+		
+		public void setFile() {
+			try {
+				AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[0]);
+				clip = AudioSystem.getClip();
+				clip.open(ais); 
+			}catch (Exception e) {
+				
+			}
+		}
+		
+		public void play() {
+			clip.start();
+		}
+		
+		public void stop() {
+			clip.stop();
+		}
+		
+		public void loop() {
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+		
+	}
+	
+	public void playMusic() {
+		sound.setFile();
+		sound.play();
+		sound.loop();
+	}
+	
+	public void stopMusic() {
+		sound.stop();
 	}
 }
