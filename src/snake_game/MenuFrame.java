@@ -15,7 +15,7 @@ public class MenuFrame extends JFrame {
         pack();
         setTitle("Snake");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public static void closeMenuFrame() {
