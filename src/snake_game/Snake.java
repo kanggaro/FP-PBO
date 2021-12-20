@@ -98,7 +98,7 @@ public class Snake extends JPanel implements ActionListener {
     Image backgroundArena;
     CountInSeconds countInSeconds;
     Timer timerSeconds;
-    GetHighScore getHighScore = new GetHighScore();
+    GetFile getHighScore = new GetHighScore();
     DrawingString drawingString = new DrawingString();
     
     ///
@@ -206,7 +206,7 @@ public class Snake extends JPanel implements ActionListener {
         timerSeconds = new Timer (1000, countInSeconds);
 		timerSeconds.start();
 		
-		highScore = getHighScore.getHighScore();
+		highScore = getHighScore.getInt();
     }
     
     public void reset()
@@ -240,7 +240,7 @@ public class Snake extends JPanel implements ActionListener {
         goldFoodY = -1;
         goldFoodDuration=5;
         goldFoodCD = 10;
-        highScore = getHighScore.getHighScore();
+        highScore = getHighScore.getInt();
         direction = 'R';
         newHighScore=false;
         eagleX = -1;
@@ -339,13 +339,13 @@ public class Snake extends JPanel implements ActionListener {
         ImageIcon imgtile = new ImageIcon("img/tile.png");
         tile = imgtile.getImage();
         
-        GetCharacter snakeSelect = new GetCharacter();
+        GetFile snakeSelect = new GetCharacter();
         ImageIcon imgbody = null;
         ImageIcon imgheadL = null;
         ImageIcon imgheadR = null;
         ImageIcon imgheadU = null;
         ImageIcon imgheadD = null;
-        switch(snakeSelect.getSelectedCharacter()) {
+        switch(snakeSelect.getInt()) {
         case 1:
         	imgbody = new ImageIcon("img/greenSnake/body.png");
         	imgheadL = new ImageIcon("img/greenSnake/headL.png");
@@ -1088,26 +1088,26 @@ public class Snake extends JPanel implements ActionListener {
         }
     }
 
-    public class CountInSeconds implements ActionListener {
-		private int count;
-		
-		CountInSeconds(){
-			count = 0;
-		}
-
-		public int getCount() {
-			return count;
-		}
-
-		public void setCount(int count) {
-			this.count = count;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(running) {
-				count++;
-			}		
-		}		
-	}
+//    public class CountInSeconds implements ActionListener {
+//		private int count;
+//		
+//		CountInSeconds(){
+//			count = 0;
+//		}
+//
+//		public int getCount() {
+//			return count;
+//		}
+//
+//		public void setCount(int count) {
+//			this.count = count;
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			if(running) {
+//				count++;
+//			}		
+//		}		
+//	}
 }

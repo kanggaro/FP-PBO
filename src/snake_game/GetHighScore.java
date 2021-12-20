@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class GetHighScore{
+public class GetHighScore extends GetFile{
 	private int score;
-	
+
 	public GetHighScore(){
 		File file = new File("highscore.txt");
 		Scanner input;
@@ -17,11 +17,11 @@ public class GetHighScore{
 			return;
 		}
 		this.score = input.nextInt();
-		getHighScore();
 		input.close();
 	}
 	
-	public int getHighScore() {
+	@Override
+	public int getInt() {
 		return this.score;
 	}
 

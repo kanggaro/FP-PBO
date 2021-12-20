@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class GetCharacter {
+public class GetCharacter extends GetFile {
 	private int select;
 	
 	public GetCharacter(){
@@ -17,11 +17,13 @@ public class GetCharacter {
 			return;
 		}
 		this.select = input.nextInt();
-		getSelectedCharacter();
 		input.close();
 	}
-	
-	public int getSelectedCharacter() {
+
+	@Override
+	public int getInt() {
 		return this.select;
 	}
+	
+	
 }

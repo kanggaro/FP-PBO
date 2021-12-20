@@ -85,7 +85,7 @@ public class Menu extends JPanel implements ActionListener {
 		eagleMenu = imgEagleMenu.getImage();
 		
 		//character select
-		GetCharacter snakeSelect = new GetCharacter();
+		GetFile snakeSelect = new GetCharacter();
 		ImageIcon imgDisplay = null;
 
 		//arrow 
@@ -101,8 +101,8 @@ public class Menu extends JPanel implements ActionListener {
 		arrow = new ImageIcon("img/arrowRight.png");
 		arrowRight = arrow.getImage();
 
-		chooseHorizontal = snakeSelect.getSelectedCharacter();
-		switch(snakeSelect.getSelectedCharacter()) {
+		chooseHorizontal = snakeSelect.getInt();
+		switch(snakeSelect.getInt()) {
 		case 1:
 			imgDisplay = new ImageIcon("img/Snake887.png");
 			imgSnkMenu = new ImageIcon("img/snakeGreenSmall.png");
@@ -145,8 +145,8 @@ public class Menu extends JPanel implements ActionListener {
 		
 		//main menu
 		ImageIcon imgSnkMenu = null;
-		GetCharacter snakeSelect = new GetCharacter();
-		switch(snakeSelect.getSelectedCharacter()) {
+		GetFile snakeSelect = new GetCharacter();
+		switch(snakeSelect.getInt()) {
 		case 1:
 			imgSnkMenu = new ImageIcon("img/snakeGreenSmall.png");
 			break;
@@ -244,8 +244,9 @@ public class Menu extends JPanel implements ActionListener {
 			drawingString.draw();
 			
 	        //high score
-			GetHighScore highScore = new GetHighScore();
-			drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 40), "High Score : " + highScore.getHighScore(), SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
+			GetFile highScore = new GetHighScore();
+//			GetHighScore highScore = new GetHighScore();
+			drawingString = new DrawingStringMid(Color.WHITE, new Font("Sans", Font.BOLD, 40), "High Score : " + highScore.getInt(), SCREEN_WIDTH, SCREEN_HEIGHT-IMAGE_SIZE, g);
 			drawingString.draw();
 			
 	        //draw eagle on menu
@@ -472,7 +473,7 @@ public class Menu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		eagleMenuMove();
 		repaint();
-		hover();
+//		hover();
 	}
 	
 	public void hover() {
@@ -650,28 +651,28 @@ public class Menu extends JPanel implements ActionListener {
 		}	
 	}
 	
-	public class CountInSeconds implements ActionListener {
-		private int count;
-		
-		CountInSeconds(){
-			count = 0;
-		}
-
-		public int getCount() {
-			return count;
-		}
-
-		public void setCount(int count) {
-			this.count = count;
-		}
-		
-		public int resetCount() {
-			return 0;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			count++;		
-		}		
-	}
+//	public class CountInSeconds implements ActionListener {
+//		private int count;
+//		
+//		CountInSeconds(){
+//			count = 0;
+//		}
+//
+//		public int getCount() {
+//			return count;
+//		}
+//
+//		public void setCount(int count) {
+//			this.count = count;
+//		}
+//		
+//		public int resetCount() {
+//			return 0;
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			count++;		
+//		}		
+//	}
 }
