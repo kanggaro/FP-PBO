@@ -339,9 +339,6 @@ public class Menu extends JPanel implements ActionListener {
 					drawingString.draw();
 					break;
 				}
-
-				
-				
 		}
 		//draw credits page
 		if(credits_menu) {
