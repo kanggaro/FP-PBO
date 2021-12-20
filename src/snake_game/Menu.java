@@ -472,7 +472,7 @@ public class Menu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		eagleMenuMove();
 		repaint();
-//		hover();
+		hover();
 	}
 	
 	public void hover() {
