@@ -885,7 +885,8 @@ public class Snake extends JPanel implements ActionListener {
     }
     
     public void closeWindow() {
-    	MenuFrame.main(null);
+//    	MenuFrame.main(null);
+    	MenuFrame.visibleOn();
     	SnakeFrame.visibleOff();
     }
 
