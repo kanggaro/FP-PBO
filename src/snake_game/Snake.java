@@ -1039,7 +1039,7 @@ public class Snake extends JPanel implements ActionListener {
                         timer.start();
                         pauseAppear=false;
                         pause=false;
-                        timerSeconds.stop(); 
+                        timerSeconds.start(); 
                     }
                     if(!running) reset();
 
